@@ -2,7 +2,7 @@
 
 ## Aperçu
 
-Le **Node-RED Facebook Post Node** vous permet de publier facilement des messages et des images sur une page Facebook directement depuis Node-RED. Ce nœud est particulièrement utile pour l'automatisation et l'intégration des publications Facebook dans vos flux de travail.
+Le **Node-Facebook** vous permet de publier facilement des messages et des images sur une page Facebook directement depuis Node-RED. Ce nœud est particulièrement utile pour l'automatisation et l'intégration des publications Facebook dans vos flux de travail.
 
 ## Fonctionnalités
 

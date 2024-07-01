@@ -12,8 +12,8 @@
         "fb"
     ],
     "repository": {
-        "type":"git",
-        "url":"https://github.com/phoenixnoirdev/Node-Facebook"
+        "type": "git",
+        "url": "https://github.com/phoenixnoirdev/Node-Facebook"
     },
     "author": "Phoenixnoir",
     "license": "MIT",
@@ -24,7 +24,8 @@
     },
     "dependencies": {
         "fb": "^2.0.0",
-        "form-data": "^4.0.0"
+        "form-data": "^4.0.0",
+        "node-fetch": "^3.3.2"
     },
     "credentials": {
         "facebook-poste": {

@@ -7,7 +7,7 @@
 //  Contributor:
 //
 //  Created: 2024-06-25 : 11:56:00
-//  Update : 2024-07-01 : 18:53:00
+//  Update : 2024-07-02 : 01:27:00
 //
 //  Description:
 //
@@ -22,8 +22,24 @@ module.exports = function(RED) {
         RED.nodes.createNode(this, config);
         const node = this;
 
+        // Utiliser les fonctions `appId` et `appSecret` fournies dans la configuration
+        const appId = config.appid || 'YOUR_APP_ID'; // Remplacez par votre ID d'application Facebook
+        const appSecret = config.appsecret || 'YOUR_APP_SECRET'; // Remplacez par votre secret d'application Facebook
+
         // Récupérer le jeton d'accès à partir des informations d'identification Node-RED
         const accessToken = node.credentials.accessToken;
+
+        // Fonction pour obtenir un jeton d'accès longue durée
+        async function getLongLivedAccessToken(shortLivedToken) {
+            const fetch = (await import('node-fetch')).default;
+            const url = `https://graph.facebook.com/v17.0/oauth/access_token?grant_type=fb_exchange_token&client_id=${appId}&client_secret=${appSecret}&fb_exchange_token=${shortLivedToken}`;
+            const response = await fetch(url);
+            const data = await response.json();
+            if (data.error) {
+                throw new Error(data.error.message);
+            }
+            return data.access_token;
+        }
 
         // Fonction pour effectuer la publication sur Facebook
         async function postToFacebook(msg) {
@@ -43,7 +59,9 @@ module.exports = function(RED) {
             const defaultImagePath = path.join(imagePath, "default.png");
 
             try {
-                FB.setAccessToken(accessToken);
+                // Utiliser un jeton d'accès longue durée pour publier
+                const longLivedAccessToken = await getLongLivedAccessToken(accessToken);
+                FB.setAccessToken(longLivedAccessToken);
 
                 let response;
 
@@ -59,7 +77,7 @@ module.exports = function(RED) {
                         FB.api(`/${pageId}/photos`, 'POST', {
                             source: fileStream,
                             caption: message,
-                            access_token: accessToken
+                            access_token: longLivedAccessToken
                         }, (res) => {
                             if (!res || res.error) {
                                 reject(res.error || new Error("Erreur inconnue lors de l'upload de l'image"));
@@ -80,7 +98,7 @@ module.exports = function(RED) {
                         FB.api(`/${pageId}/photos`, 'POST', {
                             source: fileStream,
                             caption: message,
-                            access_token: accessToken
+                            access_token: longLivedAccessToken
                         }, (res) => {
                             if (!res || res.error) {
                                 reject(res.error || new Error("Erreur inconnue lors de l'upload de l'image par défaut"));

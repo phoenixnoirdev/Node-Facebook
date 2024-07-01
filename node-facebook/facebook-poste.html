@@ -7,7 +7,7 @@
 //  Contributor:
 //
 //  Created: 2024-06-25 : 11:56:00
-//  Update : 2024-07-01 : 11:29:00
+//  Update : 2024-07-02 : 01:27:00
 //
 //  Description:
 //
@@ -22,7 +22,9 @@
             adrpage: { value: "" },
             message: { value: "" },
             game: { value: "" },
-            imagePath: { value: "" }
+            imagePath: { value: "" },
+            appid: { value: "" },
+            appsecret: { value: "" }
         },
         credentials: {
             accessToken: { type: "password" }
@@ -60,6 +62,14 @@
     <div class="form-row">
         <label for="node-input-accessToken"><i class="icon-lock"></i> Access Token</label>
         <input type="password" id="node-input-accessToken" placeholder="Access Token" data-credentials="accessToken">
+    </div>
+    <div class="form-row">
+        <label for="node-input-appid"><i class="icon-lock"></i> App Id</label>
+        <input type="password" id="node-input-appid" placeholder="App Id" data-credentials="appid">
+    </div>
+    <div class="form-row">
+        <label for="node-input-appsecret"><i class="icon-lock"></i> App Secret</label>
+        <input type="password" id="node-input-appsecret" placeholder="App Secret" data-credentials="appsecret">
     </div>
 </script>
 

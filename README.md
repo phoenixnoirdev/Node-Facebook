@@ -15,7 +15,7 @@ Le **Node-Facebook** vous permet de publier facilement des messages et des image
 
 Pour installer le nœud, naviguez vers votre répertoire utilisateur Node-RED (typiquement `~/.node-red`) et exécutez :
 
-```npm install node-red-contrib-facebook-post```
+```npm install node-facebook```
 
 ## Configuration
 

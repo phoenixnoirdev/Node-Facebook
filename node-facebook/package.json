@@ -1,0 +1,36 @@
+{
+    "name": "node-facebook-poste",
+    "version": "1.0.0",
+    "description": "Permet de créer un poste Facebook",
+    "main": "facebook-poste.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [
+        "facebook",
+        "poste",
+        "fb"
+    ],
+    "repository": {
+        "type":"git",
+        "url":"https://github.com/phoenixnoirdev/Node-Facebook"
+    },
+    "author": "Phoenixnoir",
+    "license": "MIT",
+    "node-red": {
+        "nodes": {
+            "facebook-poste": "facebook-poste.js"
+        }
+    },
+    "dependencies": {
+        "fb": "^2.0.0",
+        "form-data": "^4.0.0"
+    },
+    "credentials": {
+        "facebook-poste": {
+            "accessToken": {
+                "type": "password"
+            }
+        }
+    }
+}

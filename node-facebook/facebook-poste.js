@@ -7,7 +7,7 @@
 //  Contributor:
 //
 //  Created: 2024-06-25 : 11:56:00
-//  Update : 2024-07-02 : 20:12:00
+//  Update : 2024-07-12 : 20:01:00
 //
 //  Description:
 //
@@ -67,25 +67,46 @@ module.exports = function(RED) {
 
                 let response;
                 if (jeuxFolderExists && fs.readdirSync(jeuxFolderPath).length > 0) {
-                    const firstImage = path.join(jeuxFolderPath, fs.readdirSync(jeuxFolderPath)[0]);
-                    const fileStream = fs.createReadStream(firstImage);
-
-                    console.log("Dossier et image trouvée.");
-
-                    response = await new Promise((resolve, reject) => {
-                        FB.api(`/${pageId}/photos`, 'POST', {
-                            source: fileStream,
-                            caption: message,
-                            access_token: longLivedAccessToken
-                        }, (res) => {
-                            if (!res || res.error) {
-                                reject(res.error || new Error("Erreur inconnue lors de l'upload de l'image"));
-                            } else {
-                                resolve(res);
-                            }
+                    if (fs.readdirSync(jeuxFolderPath).length > 1) {
+                        const randomIndex = Math.floor(Math.random() * fs.readdirSync(jeuxFolderPath).length);
+                        const firstImage = path.join(jeuxFolderPath, fs.readdirSync(jeuxFolderPath)[randomIndex - 1]);
+                        const fileStream = fs.createReadStream(firstImage);
+                        console.log("Dossier et image trouvée.");
+                        console.log("Ref image " + (randomIndex - 1) + "/" + (fs.readdirSync(jeuxFolderPath).length - 1));
+                        
+                        response = await new Promise((resolve, reject) => {
+                            FB.api(`/${pageId}/photos`, 'POST', {
+                                source: fileStream,
+                                caption: message,
+                                access_token: longLivedAccessToken
+                            }, (res) => {
+                                if (!res || res.error) {
+                                    reject(res.error || new Error("Erreur inconnue lors de l'upload de l'image"));
+                                } else {
+                                    resolve(res);
+                                }
+                            });
                         });
-                    });
-
+                    } else {
+                        const firstImage = path.join(jeuxFolderPath, fs.readdirSync(jeuxFolderPath)[0]);
+                        const fileStream = fs.createReadStream(firstImage);
+                        console.log("Dossier et image trouvée.");
+                        console.log("Ref image 1/1");
+                        
+                        response = await new Promise((resolve, reject) => {
+                            FB.api(`/${pageId}/photos`, 'POST', {
+                                source: fileStream,
+                                caption: message,
+                                access_token: longLivedAccessToken
+                            }, (res) => {
+                                if (!res || res.error) {
+                                    reject(res.error || new Error("Erreur inconnue lors de l'upload de l'image"));
+                                } else {
+                                    resolve(res);
+                                }
+                            });
+                        });
+                    }
                 } else {
                     console.log("Aucune image trouvée dans le dossier " + JSON.stringify(jeux));
                     const fileStream = fs.createReadStream(defaultImagePath);
